@@ -1,0 +1,54 @@
+name: Manual Deploy to Elastic Beanstalk
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the environment'
+        required: true
+        default: 'Dev'
+        type: choice
+        options:
+          - Dev
+          - Prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # - name: Create .env file
+      #   run: |
+      #     echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" >> .env
+      #     echo "ENCRYPTION_IV=${{ secrets.ENCRYPTION_IV }}" >> .env
+
+      - name: Set up AWS credentials
+        run: |
+          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
+
+      - name: Initiate Cloud Config and Deploy to Dev Environment
+        if: ${{ inputs.environment == 'Dev' }}
+        env:
+          CLOUD_CONFIG: ${{ secrets.DEV_CONFIG }}
+          CLOUD_DEPLOY: ${{ secrets.DEV_DEPLOY }}
+        run: npm run deploy
+
+      - name: Initiate Cloud Config and Deploy to Prod Environment
+        if: ${{ inputs.environment == 'Prod' }}
+        env:
+          CLOUD_CONFIG: ${{ secrets.PROD_CONFIG }}
+          CLOUD_DEPLOY: ${{ secrets.PROD_DEPLOY }}
+        run: npm run deploy
