@@ -4,7 +4,7 @@
   "description": "Uses Github actions to trigger staged deployments",
   "main": "src/index.js",
   "scripts": {
-    "deploy": "node src/initiate-environment.js"
+    "deploy": "node src/initiate-environment.js && node src/deploy.js"
   },
   "author": "",
   "license": "ISC"
