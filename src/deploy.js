@@ -30,6 +30,10 @@ const deployStrategies = {
     //   }
     // };
     const deployTarget = target || 'test';
+    console.log('deploy config targets', config.targets);
+
+    console.log('Input Target Key', deployTarget);
+    console.log('Available Keys in config', Object.keys(config.targets));
     const deployConfig = config.targets[deployTarget];
 
     if (!deployConfig) throw new Error(`Deploy Target "${deployTarget}" not available in config (deploy.json)`);
