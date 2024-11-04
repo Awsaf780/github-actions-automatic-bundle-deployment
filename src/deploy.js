@@ -22,13 +22,13 @@ const deployStrategies = {
    * Elastic Beanstalk Deploy
    */
   beanstalk: (config, target) => {
-    // if (!config) {
-    //   try {
-    //     config = JSON.parse(fs.readFileSync('highcharts.cloud.deploy.json', 'utf8'));
-    //   } catch (e) {
-    //     console.log('Error when parsing deploy config:', e);
-    //   }
-    // };
+    if (!config) {
+      try {
+        config = JSON.parse(fs.readFileSync('deploy.json', 'utf8'));
+      } catch (e) {
+        console.log('Error when parsing deploy config:', e);
+      }
+    };
     const deployTarget = target || 'test';
     console.log('deploy config targets', config.targets);
 
