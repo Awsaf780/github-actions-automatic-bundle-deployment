@@ -53,6 +53,6 @@ const deployStrategies = {
 ////////////////////////////////////////////////////////////////////////////////
 
 config = JSON.parse(fs.readFileSync('deploy.json', 'utf8'));
-console.log('config in deploy file', config)
+console.log('config in deploy file', Object.keys(config))
 const target = process.env.TARGET;
 deployStrategies['beanstalk'](config, target);
