@@ -44,6 +44,7 @@ jobs:
         env:
           CLOUD_CONFIG: ${{ secrets.DEV_CONFIG }}
           CLOUD_DEPLOY: ${{ secrets.DEV_DEPLOY }}
+          TARGET: ${{ inputs.environment }}
         run: npm run deploy
 
       - name: Initiate Cloud Config and Deploy to Prod Environment
@@ -51,4 +52,5 @@ jobs:
         env:
           CLOUD_CONFIG: ${{ secrets.PROD_CONFIG }}
           CLOUD_DEPLOY: ${{ secrets.PROD_DEPLOY }}
+          TARGET: ${{ inputs.environment }}
         run: npm run deploy

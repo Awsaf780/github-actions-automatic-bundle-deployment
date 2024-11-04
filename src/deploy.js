@@ -1,6 +1,8 @@
 const fs = require('fs');
 
-const config = JSON.parse(fs.readFileSync('config/target.json', 'utf8'));
+const target = process.env.TARGET;
+
+const config = JSON.parse(fs.readFileSync(`config/${target}.json`, 'utf8'));
 
 const deployConfig = JSON.parse(fs.readFileSync('deploy.json', 'utf8'));
 
